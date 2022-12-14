@@ -45,8 +45,8 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
+          name: Podman v4.3.1
           files: |
             ./podman/bin/podman
 
@@ -68,7 +68,7 @@ jobs:
         run: |
           docker pull --platform linux/arm64/v8 ghcr.io/${{ github.repository_owner }}/gcc-conmon
 
-      - name: Compile Podman
+      - name: Compile conmon
         run: |
           docker run --platform linux/arm64/v8 \
           --rm -v $(pwd)/conmon:/conmon -w /conmon \
@@ -84,7 +84,7 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
+          name: Podman v4.3.1
           files: |
             ./conmon/bin/conmon
