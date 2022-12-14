@@ -14,22 +14,19 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout
+      - name: Checkout podman
         uses: actions/checkout@v3
         with:
           repository: containers/podman
           ref: v4.3.1
           path: podman
 
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          repository: containers/conmon
-          ref: v2.1.5
-          path: conmon
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
+
+      - name: Pull docker image go-podman
+        run: |
+          docker pull --platform linux/arm64/v8 ghcr.io/${{ github.repository_owner }}/go-podman
 
       - name: Compile Podman
         run: |
@@ -45,3 +42,49 @@ jobs:
       - name: Done compile Podman
         run: |
           ls -l podman/bin
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            ./podman/bin/podman
+
+  build-conmon:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout conmon
+        uses: actions/checkout@v3
+        with:
+          repository: containers/conmon
+          ref: v2.1.5
+          path: conmon
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Pull docker image gcc-conmon
+        run: |
+          docker pull --platform linux/arm64/v8 ghcr.io/${{ github.repository_owner }}/gcc-conmon
+
+      - name: Compile Podman
+        run: |
+          docker run --platform linux/arm64/v8 \
+          --rm -v $(pwd)/conmon:/conmon -w /conmon \
+          -e CFLAGS='-static -pthread' \
+          -e LDFLAGS='-s -w -static-libgcc -static' \
+          -e EXTRA_LDFLAGS='-s -w -linkmode external -extldflags "-static -lm"' \
+          -e CGO_ENABLED=1 \
+          ghcr.io/${{ github.repository_owner }}/gcc-conmon make
+
+      - name: Done compile conmon
+        run: |
+          ls -l conmon/bin
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            ./conmon/bin/conmon
