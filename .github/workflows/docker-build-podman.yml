@@ -1,0 +1,47 @@
+# This is a basic workflow that is manually triggered
+
+name: Compile Podman and conmon
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+
+jobs:
+
+  build-podman:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: https://github.com/containers/podman.git
+          ref: v4.3.1
+          path: podman
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: https://github.com/containers/conmon.git
+          ref: v2.1.5
+          path: conmon
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Compile Podman
+        run: |
+          docker run -ti --platform linux/arm64/v8 \
+          --rm -v $(pwd)/podman:/podman -w /podman \
+          -e CFLAGS='-static -pthread' \
+          -e LDFLAGS='-s -w -static-libgcc -static' \
+          -e EXTRA_LDFLAGS='-s -w -linkmode external -extldflags "-static -lm"' \
+          -e BUILDTAGS='static netgo osusergo exclude_graphdriver_btrfs exclude_graphdriver_devicemapper seccomp apparmor selinux' \
+          -e CGO_ENABLED=1 \
+          ghcr.io/${{ github.repository_owner }}/go-podman make
+
+      - name: Done compile Podman
+        run: |
+          ls -l podman/bin
