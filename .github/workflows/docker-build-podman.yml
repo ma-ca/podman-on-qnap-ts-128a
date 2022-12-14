@@ -33,7 +33,7 @@ jobs:
 
       - name: Compile Podman
         run: |
-          docker run -ti --platform linux/arm64/v8 \
+          docker run --platform linux/arm64/v8 \
           --rm -v $(pwd)/podman:/podman -w /podman \
           -e CFLAGS='-static -pthread' \
           -e LDFLAGS='-s -w -static-libgcc -static' \
