@@ -17,14 +17,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          repository: https://github.com/containers/podman.git
+          repository: containers/podman
           ref: v4.3.1
           path: podman
 
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          repository: https://github.com/containers/conmon.git
+          repository: containers/conmon
           ref: v2.1.5
           path: conmon
 
