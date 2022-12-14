@@ -4,6 +4,8 @@ FROM ubuntu:16.04
 
 RUN apt-get update -qq \
  && apt-get install -y --allow-downgrades \
+      gcc \
+      gcc-5=5.3.1-14ubuntu2 \
       binutils \
       build-essential \
       bc \
@@ -11,6 +13,22 @@ RUN apt-get update -qq \
       flex \
       libssl-dev \
       libelf-dev \
+      cpp-5=5.3.1-14ubuntu2 \
       gcc-5-base=5.3.1-14ubuntu2 \
+      libgcc-5-dev=5.3.1-14ubuntu2 \
+      libcc1-0=5.3.1-14ubuntu2 \
+      libgomp1=5.3.1-14ubuntu2 \
+      libitm1=5.3.1-14ubuntu2 \
+      libatomic1=5.3.1-14ubuntu2 \
+      libasan2=5.3.1-14ubuntu2 \
+      libubsan0=5.3.1-14ubuntu2 \
       libstdc++6=5.3.1-14ubuntu2 \
+      g++ \
+      g++-5=5.3.1-14ubuntu2 \
+      libstdc++-5-dev=5.3.1-14ubuntu2 \
+      liblsan0=5.3.1-14ubuntu2 \
+      libtsan0=5.3.1-14ubuntu2 \
+      libcilkrts5=5.3.1-14ubuntu2 \
+      libmpx0=5.3.1-14ubuntu2 \
+      libquadmath0=5.3.1-14ubuntu2 \
  && /bin/rm -rf /var/lib/apt/lists/*
