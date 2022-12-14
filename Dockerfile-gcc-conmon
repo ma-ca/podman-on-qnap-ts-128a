@@ -1,0 +1,13 @@
+FROM debian:bullseye
+
+RUN apt-get update -qq \
+ && apt-get install -yq --no-install-suggests --no-install-recommends \
+      gcc \
+      git \
+      libc6-dev \
+      libglib2.0-dev \
+      libseccomp-dev \
+      pkg-config \
+      make \
+      runc \
+ && /bin/rm -rf /var/lib/apt/lists/*
