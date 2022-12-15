@@ -477,7 +477,7 @@ server {
 
 The settings are not persistent after reboot.
 
-Run the following steps to setup Podman system reboot.
+Run the following steps to setup Podman after system reboot or firmware update.
 
 ```
 export TMPDIR=/share/CACHEDEV1_DATA/containers/tmp
