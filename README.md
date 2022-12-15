@@ -128,13 +128,13 @@ Copy the `podman` binary from `podman/bin` and the `conmon` binary from `conmon/
 
 On the TS-128A download the additional precompiled binary files.
 
-- crun 1.4.3 https://github.com/containers/crun/releases/
-- cni-plugins v1.1.0 https://github.com/containernetworking/plugins/releases/
+- crun 1.7.2 https://github.com/containers/crun/releases/
+- cni-plugins v1.1.1 https://github.com/containernetworking/plugins/releases/
 
 ```
-curl -L -o crun https://github.com/containers/crun/releases/download/1.4.3/crun-1.4.3-linux-arm64-disable-systemd
+curl -L -o crun https://github.com/containers/crun/releases/download/1.7.2/crun-1.7.2-linux-arm64-disable-systemd
 
-curl -sL https://github.com/containernetworking/plugins/releases/download/v1.1.0/cni-plugins-linux-arm64-v1.1.0.tgz | \
+curl -sL https://github.com/containernetworking/plugins/releases/download/v1.1.1/cni-plugins-linux-arm64-v1.1.1.tgz | \
 tar xzf -
 ```
 
@@ -172,15 +172,16 @@ export PATH=$PATH:$(pwd)
 export TMPDIR=/share/CACHEDEV1_DATA/containers/tmp
 
 [~] # podman --version
-podman version 4.0.0-dev
+podman version 4.3.1
 
 [~] # conmon --version
-conmon version 2.0.31
-commit: 7e7eb74e52abf65a6d46807eeaea75425cc8a36c-dirty
+conmon version 2.1.5
+commit: c9f7f19eb82d5b8151fc3ba7fbbccf03fdcd0325
 
 [~] # crun --version
-crun version 1.3
-commit: 4f6c8e0583c679bfee6a899c05ac6b916022561b
+crun version 1.7.2
+commit: 0356bf4aff9a133d655dc13b1d9ac9424706cac4
+rundir: /run/crun
 spec: 1.0.0
 +SELINUX +APPARMOR +CAP +SECCOMP +EBPF +YAJL
 ```
@@ -376,7 +377,7 @@ ln -s $(pwd)/crun /usr/local/bin/
 
 mkdir -p /usr/local/libexec/cni
 
-curl -sL https://github.com/containernetworking/plugins/releases/download/v1.1.0/cni-plugins-linux-arm64-v1.1.0.tgz | \
+curl -sL https://github.com/containernetworking/plugins/releases/download/v1.1.1/cni-plugins-linux-arm64-v1.1.1.tgz | \
 tar xzf - -C /usr/local/libexec/cni
 ```
 
@@ -385,7 +386,7 @@ tar xzf - -C /usr/local/libexec/cni
 ```
 mkdir -p /share/CACHEDEV1_DATA/.qpkg/Podman/config
 
-cd /share/CACHEDEV1_DATA/.qpkg/Podman/config
+cd /share/CACHEDEV1_DATA/.qpkg/Podman/
 
 curl -qsSL https://raw.githubusercontent.com/containers/libpod/master/cni/87-podman-bridge.conflist | tee config/87-podman-bridge.conflist
 
