@@ -472,3 +472,43 @@ server {
     }
 }
 ```
+
+# Setup Podman after reboot
+
+The settings are not persistent after reboot.
+
+Run the following steps to setup Podman system reboot.
+
+```
+export TMPDIR=/share/CACHEDEV1_DATA/containers/tmp
+```
+
+```
+ln -nsf /share/CACHEDEV1_DATA/.qpkg/Podman/modules/4.2.8/xt_comment.ko \
+/mnt/HDA_ROOT/lib/modules/4.2.8/xt_comment.ko
+
+insmod /mnt/HDA_ROOT/lib/modules/4.2.8/xt_comment.ko
+
+cd /share/CACHEDEV1_DATA/.qpkg/Podman/bin/
+
+ln -nsf $(pwd)/podman /usr/local/bin/
+ln -nsf $(pwd)/conmon /usr/local/bin/
+ln -nsf $(pwd)/crun /usr/local/bin/
+
+mkdir -p /usr/local/libexec/cni
+
+curl -sL https://github.com/containernetworking/plugins/releases/download\
+/v1.1.1/cni-plugins-linux-arm64-v1.1.1.tgz | \
+tar xzf - -C /usr/local/libexec/cni
+
+cd /share/CACHEDEV1_DATA/.qpkg/Podman/
+
+mkdir -p /etc/cni/net.d
+mkdir -p /etc/containers
+
+ln -nsf $(pwd)/config/87-podman-bridge.conflist /etc/cni/net.d
+
+ln -nsf $(pwd)/config/registries.conf /etc/containers/
+ln -nsf $(pwd)/config/policy.json /etc/containers/
+ln -nsf  $(pwd)/config/storage.conf /etc/containers/
+```
