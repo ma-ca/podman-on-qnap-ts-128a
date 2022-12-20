@@ -1,0 +1,6 @@
+FROM alpine:edge
+
+RUN apk add --no-cache iotop-c
+
+# podman run --rm -ti --privileged --net=host --pid=host localhost/iotop --version
+ENTRYPOINT [ "iotop" ]

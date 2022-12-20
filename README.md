@@ -512,3 +512,15 @@ ln -nsf $(pwd)/config/registries.conf /etc/containers/
 ln -nsf $(pwd)/config/policy.json /etc/containers/
 ln -nsf  $(pwd)/config/storage.conf /etc/containers/
 ```
+
+# Run iotop
+
+```
+export TMPDIR=/share/CACHEDEV1_DATA/containers/tmp
+
+podman pull ghcr.io/ma-ca/iotop
+```
+
+```
+podman run --rm -ti --privileged --net=host --pid=host ghcr.io/ma-ca/iotop
+```
