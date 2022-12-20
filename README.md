@@ -531,3 +531,27 @@ Note: Does not run on TS 128. It fails with:
 Your kernel does not support pids limit capabilities or the cgroup is not mounted.
 PIDs limit discarded.
 ```
+
+Instead compile iotop on TS 128
+
+```
+export TMPDIR=/share/CACHEDEV1_DATA/containers/tmp
+podman pull ghcr.io/ma-ca/gcc-5-3-1
+
+git clone https://github.com/Tomas-M/iotop
+
+podman run --cgroups disabled  \
+--name iotop -v $(pwd)/iotop:/iotop -w /iotop \
+ghcr.io/ma-ca/gcc-5-3-1 bash
+
+apt update
+apt install git build-essential libncurses-dev pkg-config -y # skip libncursesw5-dev
+
+make -j
+```
+
+exit container and run iotop in non-interactive batch mode (otherwise `Error opening terminal: xterm-256color.`)
+
+```
+iotop/iotop -o -b
+```
