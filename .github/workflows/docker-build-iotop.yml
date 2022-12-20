@@ -27,9 +27,7 @@ jobs:
         run: |
           docker build -t iotop:test -f Dockerfile-iotop .
 
-          VERSION=$(docker run --rm -ti \
-          --privileged --net=host --pid=host \
-          localhost/iotop --version \
+          VERSION=$(docker run iotop:test --version \
           | sed "s/iotop //")
 
           image_name=ghcr.io/${{ github.repository_owner }}/iotop
