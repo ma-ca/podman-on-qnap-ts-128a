@@ -528,5 +528,6 @@ podman run --rm -ti --privileged --net=host --pid=host ghcr.io/ma-ca/iotop
 Note: Does not run on TS 128. It fails with:
 
 ```
-Your kernel does not support pids limit capabilities or the cgroup is not mounted. PIDs limit discarded.
+Your kernel does not support pids limit capabilities or the cgroup is not mounted.
+PIDs limit discarded.
 ```
