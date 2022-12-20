@@ -550,7 +550,9 @@ apt install git build-essential libncurses-dev pkg-config -y # skip libncursesw5
 make -j
 ```
 
-exit container and run iotop in non-interactive batch mode (otherwise `Error opening terminal: xterm-256color.`)
+exit container and run iotop in non-interactive batch mode 
+
+(otherwise `Error opening terminal: xterm-256color.`)
 
 ```
 iotop/iotop -o -b
